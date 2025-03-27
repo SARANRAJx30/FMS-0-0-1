@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Find NGOs - FoodShare</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <style>
+    #map {
+      height: 500px;
+      width: 100%;
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+      margin-bottom: 2rem;
+    }
+    
+    .map-container {
+      margin-top: 1.5rem;
+      position: relative;
+    }
+    
+    .map-search-overlay {
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      right: 1rem;
+      z-index: 1000;
+      display: flex;
+      max-width: 400px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+    
+    .map-search-overlay input {
+      flex: 1;
+      border: none;
+      padding: 1rem 4rem 1rem 1rem;
+      border-radius: 12px;
+      font-size: 0.95rem;
+    }
+    
+    .map-search-overlay input:focus {
+      outline: none;
+      box-shadow: 0 0 0 2px var(--primary);
+    }
+    
+    .map-search-overlay button {
+      margin-left: -4rem;
+      background: var(--primary);
+      border: 0;
+      cursor: pointer;
+      height: 100%;
+      width: 4rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+    }
+    
+    .ngo-details-panel {
+      background-color: white;
+      border-radius: 16px;
+      padding: 2rem;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+      transition: all 0.3s ease;
+      transform: translateY(0);
+      opacity: 1;
+    }
+    
+    .ngo-details-panel.hidden {
+      transform: translateY(20px);
+      opacity: 0;
+    }
+    
+    .ngo-details-panel h3 {
+      margin-top: 0;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 1.5rem;
+      color: var(--foreground);
+    }
+    
+    .ngo-details-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+    }
+    
+    .ngo-detail-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      padding: 1rem;
+      background: var(--secondary);
+      border-radius: 12px;
+      transition: all 0.2s ease;
+    }
+    
+    .ngo-detail-item:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+    
+    .ngo-detail-item p {
+      margin: 0;
+    }
+    
+    .ngo-detail-label {
+      font-weight: 600;
+      margin-bottom: 0.35rem;
+      color: var(--secondary-foreground);
+    }
+    
+    .contact-btn {
+      margin-top: 2rem;
+      width: 100%;
+      padding: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      font-weight: 600;
+      font-size: 1rem;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .contact-btn:hover {
+      background: rgba(74, 222, 128, 0.9);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(74, 222, 128, 0.2);
+    }
+    
+    .ngo-card {
+      background: white;
+      border-radius: 16px;
+      padding: 1.5rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      transition: all 0.3s ease;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .ngo-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    }
+    
+    .ngo-card h3 {
+      margin-top: 0;
+      color: var(--foreground);
+      font-size: 1.25rem;
+    }
+    
+    .ngo-card-location {
+      margin-top: auto;
+      padding-top: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--muted-foreground);
+    }
+    
+    .section-divider {
+      height: 1px;
+      background: linear-gradient(to right, rgba(74, 222, 128, 0.2), rgba(74, 222, 128, 0.5), rgba(74, 222, 128, 0.2));
+      margin: 3rem 0;
+      border: none;
+    }
+    
+    @media (max-width: 768px) {
+      .ngo-details-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .section-with-pattern {
+        padding: 3rem 0;
+      }
+      
+      #map {
+        height: 350px;
+      }
+    }
+    
+    .section-with-pattern {
+      position: relative;
+      padding: 5rem 0;
+      overflow: hidden;
+    }
+    
+    .section-with-pattern::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: 
+        radial-gradient(circle at 20% 20%, rgba(74, 222, 128, 0.05) 0%, transparent 200px),
+        radial-gradient(circle at 80% 80%, rgba(74, 222, 128, 0.07) 0%, transparent 200px);
+      z-index: -1;
+    }
+  </style>
+</head>
+<body>
+  <header class="navbar">
+    <div class="container">
+      <div class="navbar-content">
+        <a href="home.html" class="navbar-logo">
+          <i data-lucide="leafy-green" class="logo-icon"></i>
+          <span>FoodBridge</span>
+        </a>
+        <nav class="navbar-links" id="navbar-links">
+          <a href="home.html" class="nav-link">Home</a>
+          <a href="about.html" class="nav-link">About</a>
+          <a href="food-donor.html" class="nav-link">Food Donor</a>
+          <a href="ngo-registration.html" class="nav-link">NGO Registration</a>
+          <a href="find-ngos.html" class="nav-link active">Find NGOs</a>
+        </nav>
+        <button class="mobile-menu-btn" id="mobile-menu-btn">
+          <i data-lucide="menu" class="menu-icon"></i>
+          <i data-lucide="x" class="close-icon hidden"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Header Section -->
+    <section class="section-with-pattern">
+      <div class="container-custom">
+        <div class="max-w-3xl mx-auto text-center animate-fade-in">
+          <div class="badge">Discover</div>
+          <h1>Find NGOs Near You</h1>
+          <p class="text-lg text-muted-foreground mt-4">
+            Connect with registered NGOs in your area that can collect and distribute your food donations efficiently, reducing waste and serving those in need.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <form id="ngoSearchForm">
+        <label for="pincode">Enter Pincode:</label>
+        <input type="text" id="pincode" name="pincode" required>
+        <button type="submit">Search</button>
+    </form>
+    
+<div id="ngoList">
+  <!-- NGO details will be appended here -->
+</div>
+
+   
+        <div class="features-grid">
+          <!-- NGO 1 -->
+          <div class="ngo-card">
+            <h3>Food For All Foundation</h3>
+            <p class="mb-4">
+              Working to provide nutritious meals to underprivileged communities in urban areas, focusing on children and elderly people.
+            </p>
+            <div class="ngo-card-location">
+              <i data-lucide="map-pin"></i>
+              <p>Mumbai Central, Mumbai - 400008</p>
+            </div>
+            <a href="#" class="link-primary mt-4" onclick="showNgoDetails('Food For All Foundation'); return false;">
+              View Details <i data-lucide="arrow-right"></i>
+            </a>
+          </div>
+          
+          <!-- NGO 2 -->
+          <div class="ngo-card">
+            <h3>Hope Community Services</h3>
+            <p class="mb-4">
+              Providing meals and grocery support to homeless individuals and families in need through their network of volunteers.
+            </p>
+            <div class="ngo-card-location">
+              <i data-lucide="map-pin"></i>
+              <p>Koramangala, Bangalore - 560034</p>
+            </div>
+            <a href="#" class="link-primary mt-4" onclick="showNgoDetails('Hope Community Services'); return false;">
+              View Details <i data-lucide="arrow-right"></i>
+            </a>
+          </div>
+          
+          <!-- NGO 3 -->
+          <div class="ngo-card">
+            <h3>Helping Hands Outreach</h3>
+            <p class="mb-4">
+              Focused on reducing food waste from restaurants and catering services to feed those in need and promote sustainability.
+            </p>
+            <div class="ngo-card-location">
+              <i data-lucide="map-pin"></i>
+              <p>Adyar, Chennai - 600020</p>
+            </div>
+            <a href="#" class="link-primary mt-4" onclick="showNgoDetails('Helping Hands Outreach'); return false;">
+              View Details <i data-lucide="arrow-right"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container-custom">
+      <div class="footer-content">
+        <div class="footer-logo">
+          <i data-lucide="leafy-green"></i>
+          <span>FoodBridge</span>
+        </div>
+        <p class="copyright">
+          © <span id="currentYear"></span> Food Waste Management System. All rights reserved.
+        </p>
+        <div class="footer-love">
+          <span>Made with</span>
+          <i data-lucide="heart" class="heart-icon"></i>
+          <span>for a better world</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="toast-container"></div>
+
+  
+  
+    <script>
+        document.getElementById('ngoSearchForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const pincode = document.getElementById('pincode').value.trim();
+            
+            if (pincode === "") {
+                alert("Please enter a valid pincode.");
+                return;
+            }
+
+            // Redirect to Google Maps search for NGOs near the entered pincode
+            const mapsUrl = `https://www.google.com/maps/search/NGOs+near+${pincode}`;
+            window.open(mapsUrl, '_blank');
+        });
+    navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
+const latitude = position.coords.latitude;
+const longitude = position.coords.longitude;
+const mapsUrl = `https://www.google.com/maps/search/NGOs+near+${latitude},${longitude}`;
+window.open(mapsUrl, '_blank');
+
+    function calculateDistance(lat1, lon1, lat2, lon2) {
+  const R = 6371; // Earth's radius in kilometers
+  const dLat = (lat2 - lat1) * (Math.PI / 180);
+  const dLon = (lon2 - lon1) * (Math.PI / 180);
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) *
+    Math.sin(dLon / 2) * Math.sin(dLon / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return R * c; // Distance in kilometers
+}
+
+    
+const distance = calculateDistance(13.0827, 80.2707, 13.0527, 80.2507);
+console.log(`Distance: ${distance.toFixed(2)} km`);
+
+    
+    const ngoList = [
+  {
+    name: "Sevalaya",
+    address: "No-12, F-2, First floor, Pushkarani apartments, Ananda Rd, Alwarpet, Chennai, Tamil Nadu- 600018",
+    contact: "Not specified",
+    latitude: 13.0330,
+    longitude: 80.2518
+  },
+  // Add more NGOs as needed
+];
+
+ngoList.forEach(ngo => {
+  const distance = calculateDistance(latitude, longitude, ngo.latitude, ngo.longitude);
+  const ngoDiv = document.createElement('div');
+  ngoDiv.innerHTML = `
+    <h3>${ngo.name}</h3>
+    <p><strong>Address:</strong> ${ngo.address}</p>
+    <p><strong>Contact:</strong> ${ngo.contact}</p>
+    <p><strong>Distance:</strong> ${distance.toFixed(2)} km</p>
+  `;
+  document.getElementById('ngoList').appendChild(ngoDiv);
+});
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    </script>
+  
+  
+  
+  
+  
+
+ <script>
+document.addEventListener('DOMContentLoaded', () => {
+  // Initialize map with a more modern style
+  const map = L.map('map', {
+    zoomControl: false, // Custom position for zoom control
+  }).setView([20.5937, 78.9629], 5); // Center on India
+
+  // Add custom tile layer with lighter colors
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+    subdomains: 'abcd',
+    maxZoom: 19
+  }).addTo(map);
+
+  // Add zoom control to bottom right
+  L.control.zoom({
+    position: 'bottomright'
+  }).addTo(map);
+
+  // Custom icon for markers
+  const customIcon = L.divIcon({
+    className: 'custom-map-marker',
+    html: '<div style="background-color: var(--primary); width: 20px; height: 20px; border-radius: 50%; border: 3px solid white; box-shadow: 0 2px 5px rgba(0,0,0,0.2);"></div>',
+    iconSize: [20, 20],
+    iconAnchor: [10, 10]
+  });
+
+  // Function to show NGO details with animation
+  window.showNgoDetails = function(ngoName) {
+    // Fetch NGO details from server
+    fetch(`http://localhost:3001/api/ngos/search?name=${encodeURIComponent(ngoName)}`)
+      .then(response => response.json())
+      .then(ngos => {
+        if (ngos.length > 0) {
+          const ngo = ngos[0];
+          
+          // Hide panel first for animation effect
+          const detailsPanel = document.getElementById('ngoDetailsPanel');
+          detailsPanel.classList.add('hidden');
+
+          // After a slight delay, update content and show panel
+          setTimeout(() => {
+            // Populate NGO details panel
+            document.getElementById('ngoName').textContent = ngo.name;
+            document.getElementById('ngoAddress').textContent = ngo.address;
+            document.getElementById('ngoContact').textContent = ngo.mobile;
+            document.getElementById('ngoEmail').textContent = ngo.email;
+            document.getElementById('ngoFoodTypes').textContent = ngo.food_types || 'Various food types';
+
+            // Show the panel
+            detailsPanel.classList.remove('hidden');
+
+            // Center map on NGO location with smooth zoom
+            map.flyTo([ngo.lat || 20.5937, ngo.lng || 78.9629], 13, {
+              animate: true,
+              duration: 1.5
+            });
+
+            // Show toast notification
+            window.showToast(`Showing details for ${ngo.name}`, 'info');
+
+            // Scroll to map if not in view
+            document.getElementById('map').scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }, 300);
+        }
+      })
+      .catch(error => {
+        console.error('Error fetching NGO details:', error);
+        window.showToast('Error loading NGO details', 'error');
+      });
+  };
+
+  // Enhanced search functionality with visual feedback
+  document.getElementById('searchButton').addEventListener('click', function() {
+    performSearch();
+  });
+
+  function performSearch() {
+    const searchTerm = document.getElementById('searchLocation').value.toLowerCase();
+    const searchButton = document.getElementById('searchButton');
+
+    if (!searchTerm) {
+      window.showToast('Please enter a location to search', 'warning');
+      return;
+    }
+
+    // Add loading indicator to button
+    searchButton.innerHTML = '<div class="spinner" style="width: 18px; height: 18px;"></div>';
+
+    // Determine if search is by pincode (all digits) or area
+    const isPincodeSearch = /^\d+$/.test(searchTerm);
+    
+    // API call to search NGOs
+    const url = isPincodeSearch 
+      ? `http://localhost:3001/api/ngos/search?pincode=${searchTerm}`
+      : `http://localhost:3001/api/ngos/search?area=${searchTerm}`;
+
+    fetch(url)
+      .then(response => response.json())
+      .then(ngos => {
+        // Restore button
+        searchButton.innerHTML = '<i data-lucide="search"></i>';
+        lucide.createIcons();
+
+        if (ngos.length === 0) {
+          window.showToast(`No NGOs found in ${searchTerm}`, 'error');
+          return;
+        }
+
+        // Clear existing markers
+        map.eachLayer(layer => {
+          if (layer instanceof L.Marker) {
+            map.removeLayer(layer);
+          }
+        });
+
+        // Add new markers for found NGOs
+        ngos.forEach(ngo => {
+          const marker = L.marker([ngo.lat || 20.5937, ngo.lng || 78.9629], {icon: customIcon}).addTo(map);
+          
+          const popupContent = `
+            <div style="font-family: 'Poppins', sans-serif; padding: 5px;">
+              <div style="font-weight: 600; font-size: 14px; margin-bottom: 5px; color: var(--primary);">${ngo.name}</div>
+              <div style="font-size: 12px; color: #666;">${ngo.address}</div>
+              <button
+                onclick="showNgoDetails('${ngo.name}')"
+                style="background: var(--primary); color: white; border: none; padding: 5px 10px; border-radius: 4px; margin-top: 8px; cursor: pointer; font-size: 12px; width: 100%;"
+              >
+                View Details
+              </button>
+            </div>
+          `;
+          
+          marker.bindPopup(popupContent);
+          marker.on('click', function() {
+            showNgoDetails(ngo.name);
+          });
+        });
+
+        // Center map on first result
+        if (ngos[0]) {
+          map.flyTo([ngos[0].lat || 20.5937, ngos[0].lng || 78.9629], 13, {
+            animate: true,
+            duration: 1.5
+          });
+        }
+
+        window.showToast(`Found ${ngos.length} NGOs in ${searchTerm}`, 'success');
+      })
+      .catch(error => {
+        console.error('Search error:', error);
+        searchButton.innerHTML = '<i data-lucide="search"></i>';
+        lucide.createIcons();
+        window.showToast('Error searching for NGOs', 'error');
+      });
+  }
+
+  // Allow search on Enter key
+  document.getElementById('searchLocation').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+      performSearch();
+    }
+  });
+
+  // Add pulsing effect to custom markers for better visibility
+  const style = document.createElement('style');
+  style.textContent = `
+    @keyframes pulse {
+      0% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.3); opacity: 0.7; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    .custom-map-marker div {
+      animation: pulse 1.5s infinite ease-in-out;
+    }
+  `;
+  document.head.appendChild(style);
+});
+</script>
+ 
+  
+  
+  
+  
+  <script src="app.js"></script>
+  
+  
+  
+  
+  
+  
+</body>
+</html>

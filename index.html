@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FoodShare - Food Waste Management System</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+  <header class="navbar">
+    <div class="container">
+      <div class="navbar-content">
+        <a href="index.html" class="navbar-logo">
+          <i data-lucide="leafy-green" class="logo-icon"></i>
+          <span>FoodBridge</span>
+        </a>
+        <nav class="navbar-links" id="navbar-links">
+          <a href="index.html" class="nav-link active">Home</a>
+          <a href="about.html" class="nav-link">About</a>
+          <a href="food-donor.html" class="nav-link">Food Donor</a>
+          <a href="ngo-registration.html" class="nav-link">NGO Registration</a>
+          <a href="find-ngos.html" class="nav-link">Find NGOs</a>
+        </nav>
+        <button class="mobile-menu-btn" id="mobile-menu-btn">
+          <i data-lucide="menu" class="menu-icon"></i>
+          <i data-lucide="x" class="close-icon hidden"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="container-custom">
+        <div class="hero-grid">
+          <div class="hero-content">
+            <div class="badge animate-fade-in" style="animation-delay: 0.1s;">
+              <span>Reducing Food Waste Together</span>
+            </div>
+            
+            <h1 class="animate-slide-in" style="animation-delay: 0.2s;">
+              Connecting Surplus Food <span class="text-primary">to Those in Need</span>
+            </h1>
+            
+            <p class="animate-slide-in" style="animation-delay: 0.3s;">
+              Our platform connects food donors with NGOs to reduce food waste
+              and help those facing food insecurity. Join our mission for a more
+              sustainable and equitable food system.
+            </p>
+            
+            <div class="buttons animate-slide-in" style="animation-delay: 0.4s;">
+              <a href="food-donor.html" class="btn btn-primary">
+                Donate Food
+              </a>
+              <a href="ngo-registration.html" class="btn btn-secondary">
+                Register as NGO
+              </a>
+            </div>
+          </div>
+          
+          <div class="hero-image-container">
+            <div class="hero-image animate-scale-in" style="animation-delay: 0.3s;">
+              <img 
+                src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80" 
+                alt="Food donation" 
+              />
+            </div>
+            <div class="hero-card animate-fade-in" style="animation-delay: 0.5s;">
+              <div class="hero-card-content">
+                <div class="icon-circle">
+                  <i data-lucide="utensils"></i>
+                </div>
+                <div>
+                  <h4>1,200+ meals</h4>
+                  <p>Saved from waste and delivered to those in need this month</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Features Section -->
+    <section class="features">
+      <div class="container-custom">
+        <div class="section-header">
+          <h2>How It Works</h2>
+          <p>
+            Our platform makes it simple to connect surplus food with the organizations that can distribute it to those in need.
+          </p>
+        </div>
+        
+        <div class="features-grid">
+          <!-- Feature 1 -->
+          <div class="card">
+            <div class="icon-circle">
+              <i data-lucide="utensils"></i>
+            </div>
+            <h3>Food Donation</h3>
+            <p>
+              Restaurants, events, and individuals can easily register and donate surplus food through our simple form.
+            </p>
+            <a href="food-donor.html" class="link-primary">
+              Donate Food <i data-lucide="arrow-right"></i>
+            </a>
+          </div>
+          
+          <!-- Feature 2 -->
+          <div class="card">
+            <div class="icon-circle">
+              <i data-lucide="building"></i>
+            </div>
+            <h3>NGO Registration</h3>
+            <p>
+              NGOs can register on our platform to receive notifications about available food donations in their area.
+            </p>
+            <a href="ngo-registration.html" class="link-primary">
+              Register as NGO <i data-lucide="arrow-right"></i>
+            </a>
+          </div>
+          
+          <!-- Feature 3 -->
+          <div class="card">
+            <div class="icon-circle">
+              <i data-lucide="map-pin"></i>
+            </div>
+            <h3>Find Nearby NGOs</h3>
+            <p>
+              Use our interactive map to find registered NGOs in your area for quick and efficient food distribution.
+            </p>
+            <a href="find-ngos.html" class="link-primary">
+              Explore Map <i data-lucide="arrow-right"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Stats Section -->
+    <section class="stats">
+      <div class="container-custom">
+        <div class="stats-grid">
+          <div class="stats-content">
+            <div class="badge">
+              <span>Our Impact</span>
+            </div>
+            
+            <h2>Making a Difference Together</h2>
+            
+            <p>
+              Through the collective effort of our donors and NGO partners, we're reducing food waste
+              and fighting hunger in communities across the country.
+            </p>
+            
+            <a href="about.html" class="link-primary">
+              Learn more about our mission <i data-lucide="arrow-right"></i>
+            </a>
+          </div>
+          
+          <div class="stats-numbers">
+            <div class="card text-center">
+              <h3>10k+</h3>
+              <p>Meals Donated</p>
+            </div>
+            
+            <div class="card text-center">
+              <h3>50+</h3>
+              <p>NGO Partners</p>
+            </div>
+            
+            <div class="card text-center">
+              <h3>200+</h3>
+              <p>Food Donors</p>
+            </div>
+            
+            <div class="card text-center">
+              <h3>30+</h3>
+              <p>Cities Covered</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- CTA Section -->
+    <section class="cta">
+      <div class="container-custom text-center">
+        <div class="cta-content">
+          <h2>Ready to Make a Difference?</h2>
+          <p>
+            Join our platform today and help us create a more sustainable and equitable food system for all.
+          </p>
+          <div class="buttons">
+            <a href="food-donor.html" class="btn btn-white">
+              Donate Food
+            </a>
+            <a href="ngo-registration.html" class="btn btn-outline">
+              Register as NGO
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container-custom">
+      <div class="footer-content">
+        <div class="footer-logo">
+          <i data-lucide="leafy-green"></i>
+          <span>FoodBridge</span>
+        </div>
+        <p class="copyright">
+          © <span id="currentYear"></span> Food Waste Management System. All rights reserved.
+        </p>
+        <div class="footer-love">
+          <span>Made with</span>
+          <i data-lucide="heart" class="heart-icon"></i>
+          <span>for a better world</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>

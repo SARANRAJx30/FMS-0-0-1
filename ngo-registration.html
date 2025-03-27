@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NGO Registration - FoodBridge</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+  <header class="navbar">
+    <div class="container">
+      <div class="navbar-content">
+        <a href="index.html" class="navbar-logo">
+          <i data-lucide="leafy-green" class="logo-icon"></i>
+          <span>FoodBridge</span>
+        </a>
+        <nav class="navbar-links" id="navbar-links">
+          <a href="index.html" class="nav-link">Home</a>
+          <a href="about.html" class="nav-link">About</a>
+          <a href="food-donor.html" class="nav-link">Food Donor</a>
+          <a href="ngo-registration.html" class="nav-link active">NGO Registration</a>
+          <a href="find-ngos.html" class="nav-link">Find NGOs</a>
+        </nav>
+        <button class="mobile-menu-btn" id="mobile-menu-btn">
+          <i data-lucide="menu" class="menu-icon"></i>
+          <i data-lucide="x" class="close-icon hidden"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Header Section -->
+    <section class="section with-background">
+      <div class="container-custom">
+        <div class="max-w-3xl mx-auto text-center animate-fade-in">
+          <h1>NGO Registration</h1>
+          <p class="text-lg text-muted-foreground mt-4">
+            Register your NGO with us to receive food donations. Once registered, donors can find and contact your organization.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Form Section -->
+    <section class="section">
+      <div class="container-custom">
+        <div class="max-w-3xl mx-auto">
+          <div class="card bg-white">
+            <div class="form-header">
+              <div class="icon-circle">
+                <i data-lucide="building"></i>
+              </div>
+              <div>
+                <h2 class="text-2xl font-semibold">NGO Registration Form</h2>
+                <p class="text-muted-foreground">Join our network of food distribution partners</p>
+              </div>
+            </div>
+            
+            <form id="ngoForm" class="space-y-6">
+              <div class="form-grid">
+                <!-- NGO Name -->
+                <div class="form-input-wrapper span-2">
+                  <label for="name" class="form-label">NGO Name <span class="text-error">*</span></label>
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    class="form-input"
+                    placeholder="Official name of your organization"
+                    required
+                  />
+                </div>
+                
+                <!-- Mobile Number -->
+                <div class="form-input-wrapper">
+                  <label for="mobile" class="form-label">Mobile Number <span class="text-error">*</span></label>
+                  <input
+                    type="tel"
+                    id="mobile"
+                    name="mobile"
+                    class="form-input"
+                    placeholder="10-digit mobile number"
+                    required
+                    pattern="[0-9]{10}"
+                  />
+                </div>
+                
+                <!-- Email -->
+                <div class="form-input-wrapper">
+                  <label for="email" class="form-label">Email Address <span class="text-error">*</span></label>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    class="form-input"
+                    placeholder="contact@yourorganization.org"
+                    required
+                  />
+                </div>
+                
+                <!-- Registration Number -->
+                <div class="form-input-wrapper span-2">
+                  <label for="registrationNumber" class="form-label">Registration Number</label>
+                  <input
+                    type="text"
+                    id="registrationNumber"
+                    name="registrationNumber"
+                    class="form-input"
+                    placeholder="Your NGO registration number (if applicable)"
+                  />
+                </div>
+                
+                <!-- Address -->
+                <div class="form-input-wrapper span-2">
+                  <label for="address" class="form-label">Address <span class="text-error">*</span></label>
+                  <input
+                    type="text"
+                    id="address"
+                    name="address"
+                    class="form-input"
+                    placeholder="Street address"
+                    required
+                  />
+                </div>
+                
+                <!-- City -->
+                <div class="form-input-wrapper">
+                  <label for="city" class="form-label">City</label>
+                  <input
+                    type="text"
+                    id="city"
+                    name="city"
+                    class="form-input"
+                    placeholder="Your city"
+                  />
+                </div>
+                
+                <!-- State -->
+                <div class="form-input-wrapper">
+                  <label for="state" class="form-label">State</label>
+                  <input
+                    type="text"
+                    id="state"
+                    name="state"
+                    class="form-input"
+                    placeholder="Your state"
+                  />
+                </div>
+                
+                <!-- Pincode -->
+                <div class="form-input-wrapper span-2">
+                  <label for="pincode" class="form-label">Pincode <span class="text-error">*</span></label>
+                  <div class="input-with-icon">
+                    <i data-lucide="map-pin" class="input-icon"></i>
+                    <input
+                      type="text"
+                      id="pincode"
+                      name="pincode"
+                      class="form-input with-icon"
+                      placeholder="6-digit pincode"
+                      required
+                      pattern="[0-9]{6}"
+                    />
+                  </div>
+                  <p class="input-help-text">
+                    Donors will be able to find your NGO based on this pincode
+                  </p>
+                </div>
+                
+                <!-- Description -->
+                <div class="form-input-wrapper span-2">
+                  <label for="description" class="form-label">Description of Your NGO</label>
+                  <textarea
+                    id="description"
+                    name="description"
+                    class="form-input textarea"
+                    placeholder="Tell us about your organization, mission, and the communities you serve"
+                    rows="4"
+                  ></textarea>
+                </div>
+                
+                <!-- Upload Logo -->
+                <div class="form-input-wrapper span-2">
+                  <label class="form-label">Upload Organization Logo</label>
+                  <div class="image-upload-container" id="logoUploadContainer">
+                    <div class="image-upload-placeholder" id="logoUploadPlaceholder">
+                      <i data-lucide="upload" class="upload-icon"></i>
+                      <p><span class="font-medium">Click to upload</span> or drag and drop</p>
+                      <p class="small-text">PNG, JPG or JPEG (MAX. 2MB)</p>
+                    </div>
+                    <div class="image-preview hidden" id="logoPreview">
+                      <img id="previewLogoImg" src="#" alt="Logo preview" class="logo-preview-img" />
+                      <button type="button" class="remove-image-btn" id="removeLogoBtn">
+                        <i data-lucide="x"></i>
+                      </button>
+                    </div>
+                    <input 
+                      type="file" 
+                      id="logoImage"
+                      name="logoImage"
+                      accept="image/*" 
+                      class="hidden-input" 
+                    />
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Submit Button -->
+              <div class="pt-4">
+                <button
+                  type="submit"
+                  id="submitBtn"
+                  class="btn btn-primary w-full"
+                >
+                  Register NGO
+                  <i data-lucide="arrow-right"></i>
+                </button>
+
+                <button
+                  type="button"
+                  id="processingBtn"
+                  class="btn btn-primary w-full hidden"
+                  disabled
+                >
+                  <span class="spinner"></span>
+                  Processing...
+                </button>
+
+                <button
+                  type="button"
+                  id="successBtn"
+                  class="btn btn-success w-full hidden"
+                  disabled
+                >
+                  <i data-lucide="check"></i>
+                  Registration Complete!
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container-custom">
+      <div class="footer-content">
+        <div class="footer-logo">
+          <i data-lucide="leafy-green"></i>
+          <span>FoodBridge</span>
+        </div>
+        <p class="copyright">
+          © <span id="currentYear"></span> Food Waste Management System. All rights reserved.
+        </p>
+        <div class="footer-love">
+          <span>Made with</span>
+          <i data-lucide="heart" class="heart-icon"></i>
+          <span>for a better world</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <script src="app.js"></script>
+ <script>
+document.addEventListener('DOMContentLoaded', () => {
+  // Form handling
+  const form = document.getElementById('ngoForm');
+  const submitBtn = document.getElementById('submitBtn');
+  const processingBtn = document.getElementById('processingBtn');
+  const successBtn = document.getElementById('successBtn');
+
+  // Image upload handling
+  const logoUploadContainer = document.getElementById('logoUploadContainer');
+  const logoUploadPlaceholder = document.getElementById('logoUploadPlaceholder');
+  const logoPreview = document.getElementById('logoPreview');
+  const previewLogoImg = document.getElementById('previewLogoImg');
+  const removeLogoBtn = document.getElementById('removeLogoBtn');
+  const logoImageInput = document.getElementById('logoImage');
+
+  // Handle image click
+  logoUploadContainer.addEventListener('click', () => {
+    if (!logoPreview.classList.contains('hidden')) return;
+    logoImageInput.click();
+  });
+
+  // Handle drag and drop
+  ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+    logoUploadContainer.addEventListener(eventName, preventDefaults, false);
+  });
+
+  function preventDefaults(e) {
+    e.preventDefault();
+    e.stopPropagation();
+  }
+
+  ['dragenter', 'dragover'].forEach(eventName => {
+    logoUploadContainer.addEventListener(eventName, highlight, false);
+  });
+
+  ['dragleave', 'drop'].forEach(eventName => {
+    logoUploadContainer.addEventListener(eventName, unhighlight, false);
+  });
+
+  function highlight() {
+    logoUploadContainer.classList.add('highlight');
+  }
+
+  function unhighlight() {
+    logoUploadContainer.classList.remove('highlight');
+  }
+
+  logoUploadContainer.addEventListener('drop', handleDrop, false);
+
+  function handleDrop(e) {
+    const dt = e.dataTransfer;
+    const files = dt.files;
+    if (files.length) {
+      logoImageInput.files = files;
+      handleFiles(files);
+    }
+  }
+
+  logoImageInput.addEventListener('change', function() {
+    if (this.files.length) {
+      handleFiles(this.files);
+    }
+  });
+
+  function handleFiles(files) {
+    const file = files[0];
+    if (file.size > 2 * 1024 * 1024) {
+      window.showToast('Image is too large. Maximum size is 2MB.', 'error');
+      return;
+    }
+
+    if (!file.type.match('image.*')) {
+      window.showToast('Please select an image file (JPEG, PNG, etc).', 'error');
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      previewLogoImg.src = e.target.result;
+      logoUploadPlaceholder.classList.add('hidden');
+      logoPreview.classList.remove('hidden');
+    };
+    reader.readAsDataURL(file);
+  }
+
+  removeLogoBtn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    previewLogoImg.src = '#';
+    logoImageInput.value = '';
+    logoPreview.classList.add('hidden');
+    logoUploadPlaceholder.classList.remove('hidden');
+  });
+
+  // Form submission
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    // Basic validation
+    const mobile = document.getElementById('mobile').value;
+    const email = document.getElementById('email').value;
+    const pincode = document.getElementById('pincode').value;
+
+    if (!/^\d{10}$/.test(mobile)) {
+      window.showToast('Please enter a valid 10-digit mobile number', 'error');
+      return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      window.showToast('Please enter a valid email address', 'error');
+      return;
+    }
+
+    if (!/^\d{6}$/.test(pincode)) {
+      window.showToast('Please enter a valid 6-digit pincode', 'error');
+      return;
+    }
+
+    // Show processing state
+    submitBtn.classList.add('hidden');
+    processingBtn.classList.remove('hidden');
+
+    // Get form data
+    const formData = new FormData();
+    formData.append('name', document.getElementById('name').value);
+    formData.append('mobile', mobile);
+    formData.append('email', email);
+    formData.append('registrationNumber', document.getElementById('registrationNumber').value);
+    formData.append('address', document.getElementById('address').value);
+    formData.append('city', document.getElementById('city').value);
+    formData.append('state', document.getElementById('state').value);
+    formData.append('pincode', pincode);
+    formData.append('description', document.getElementById('description').value);
+    
+    // Append logo if uploaded
+    const logoImage = document.getElementById('logoImage').files[0];
+    if (logoImage) {
+      formData.append('logoImage', logoImage);
+    }
+
+    // Send to server
+    fetch('http://localhost:3001/api/ngos', {
+      method: 'POST',
+      body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+      // Show success state
+      processingBtn.classList.add('hidden');
+      successBtn.classList.remove('hidden');
+      
+      window.showToast('NGO registered successfully!', 'success');
+
+      // Reset form after delay
+      setTimeout(() => {
+        form.reset();
+        successBtn.classList.add('hidden');
+        submitBtn.classList.remove('hidden');
+        logoPreview.classList.add('hidden');
+        logoUploadPlaceholder.classList.remove('hidden');
+      }, 3000);
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      processingBtn.classList.add('hidden');
+      submitBtn.classList.remove('hidden');
+      window.showToast('Error registering NGO. Please try again.', 'error');
+    });
+  });
+});
+</script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Form handling
+      const form = document.getElementById('ngoForm');
+      const submitBtn = document.getElementById('submitBtn');
+      const processingBtn = document.getElementById('processingBtn');
+      const successBtn = document.getElementById('successBtn');
+      
+      // Image upload handling
+      const logoUploadContainer = document.getElementById('logoUploadContainer');
+      const logoUploadPlaceholder = document.getElementById('logoUploadPlaceholder');
+      const logoPreview = document.getElementById('logoPreview');
+      const previewLogoImg = document.getElementById('previewLogoImg');
+      const removeLogoBtn = document.getElementById('removeLogoBtn');
+      const logoImageInput = document.getElementById('logoImage');
+      
+      // Handle image click
+      logoUploadContainer.addEventListener('click', () => {
+        if (!logoPreview.classList.contains('hidden')) return;
+        logoImageInput.click();
+      });
+      
+      // Handle drag and drop
+      ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+        logoUploadContainer.addEventListener(eventName, preventDefaults, false);
+      });
+      
+      function preventDefaults(e) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+      
+      ['dragenter', 'dragover'].forEach(eventName => {
+        logoUploadContainer.addEventListener(eventName, highlight, false);
+      });
+      
+      ['dragleave', 'drop'].forEach(eventName => {
+        logoUploadContainer.addEventListener(eventName, unhighlight, false);
+      });
+      
+      function highlight() {
+        logoUploadContainer.classList.add('highlight');
+      }
+      
+      function unhighlight() {
+        logoUploadContainer.classList.remove('highlight');
+      }
+      
+      logoUploadContainer.addEventListener('drop', handleDrop, false);
+      
+      function handleDrop(e) {
+        const dt = e.dataTransfer;
+        const files = dt.files;
+        if (files.length) {
+          logoImageInput.files = files;
+          handleFiles(files);
+        }
+      }
+      
+      logoImageInput.addEventListener('change', function() {
+        if (this.files.length) {
+          handleFiles(this.files);
+        }
+      });
+      
+      function handleFiles(files) {
+        const file = files[0];
+        if (file.size > 2 * 1024 * 1024) {
+          // Show error toast for file too large
+          window.showToast('Image is too large. Maximum size is 2MB.', 'error');
+          return;
+        }
+        
+        if (!file.type.match('image.*')) {
+          // Show error toast for invalid file type
+          window.showToast('Please select an image file (JPEG, PNG, etc).', 'error');
+          return;
+        }
+        
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          previewLogoImg.src = e.target.result;
+          logoUploadPlaceholder.classList.add('hidden');
+          logoPreview.classList.remove('hidden');
+        };
+        reader.readAsDataURL(file);
+      }
+      
+      removeLogoBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        previewLogoImg.src = '#';
+        logoImageInput.value = '';
+        logoPreview.classList.add('hidden');
+        logoUploadPlaceholder.classList.remove('hidden');
+      });
+      
+      // Form submission
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Basic validation
+        const mobile = document.getElementById('mobile').value;
+        const email = document.getElementById('email').value;
+        const pincode = document.getElementById('pincode').value;
+        
+        if (!/^\d{10}$/.test(mobile)) {
+          window.showToast('Please enter a valid 10-digit mobile number', 'error');
+          return;
+        }
+        
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+          window.showToast('Please enter a valid email address', 'error');
+          return;
+        }
+        
+        if (!/^\d{6}$/.test(pincode)) {
+          window.showToast('Please enter a valid 6-digit pincode', 'error');
+          return;
+        }
+        
+        // Show processing state
+        submitBtn.classList.add('hidden');
+        processingBtn.classList.remove('hidden');
+        
+        // Simulate API request
+        setTimeout(() => {
+          // Show success state
+          processingBtn.classList.add('hidden');
+          successBtn.classList.remove('hidden');
+          
+          // Show success toast
+          window.showToast('NGO registered successfully!', 'success');
+          
+          // Reset form after delay
+          setTimeout(() => {
+            form.reset();
+            successBtn.classList.add('hidden');
+            submitBtn.classList.remove('hidden');
+            logoPreview.classList.add('hidden');
+            logoUploadPlaceholder.classList.remove('hidden');
+          }, 3000);
+        }, 1500);
+      });
+    });
+  </script>
+</body>
+</html>
